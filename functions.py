@@ -1,7 +1,9 @@
 import os 
 
-def clear_system(function):
-    
+import pprint
+
+def clear_system(function):  
+
     def wrap(*args, **kwargs):
         os.system('clear')
         result = function(*args, **kwargs)
@@ -10,6 +12,7 @@ def clear_system(function):
 
     wrap.__doc__ = function.__doc__
     return wrap
+
 
 @clear_system
 def create_user(collection):
@@ -20,11 +23,31 @@ def create_user(collection):
     email = input('Email: ')
 
     user = dict(username=username, age=age, email=email)
+
+    address = input('Do you want to enter your address? (y/n) ').lower()
+
+    if address == 'y':
+       user['address'] = get_address()
+
     collection.insert_one(user)
 
-    print(user)
+    show_user(user)
 
     return user
+
+def get_address():
+    street = input("Street: ")
+    district = input("District: ")
+    city = input("City: ")
+    zip_code = input("Zip code: ")
+
+    address = dict(street=street, district=district, city=city, zip_code=zip_code)
+    return address
+
+
+def show_user(user):
+    pp = pprint.PrettyPrinter(indent=4)
+    pp.pprint(user)
 
 @clear_system
 def get_user(collection):
@@ -36,17 +59,32 @@ def get_user(collection):
         {'_id': False}
     )
 
-    print(user)
+    if user:
+        show_user(user)
+        return user
+    else:
+        print("It was not possible to get that user.")
 
-    return user
 
-def delete_user():
+@clear_system
+def delete_user(collection):
     """Delete an user"""
-    print('Delete user')
 
-def update_user():
+    username = input('Username: ')
+    
+    result = collection.delete_one({
+        'username': username
+    })
+    print(result.acknowledged)
+
+    return result.acknowledged
+
+
+@clear_system
+def update_user(collection):
     """Update an user"""
     print('Update user')
+
 
 def default(*args, **kwargs):
     print("Not a valid option")

@@ -1,9 +1,9 @@
-# App Name
+# CRUD cli-app
 
 > Brief description
 
 ## Table of contents
-- [App Name](#app-name)
+- [CRUD cli-app](#crud-cli-app)
   - [Table of contents](#table-of-contents)
   - [Getting Started](#getting-started)
     - [Prerequisites](#prerequisites)
