@@ -24,7 +24,7 @@ def create_user(collection):
 
     user = dict(username=username, age=age, email=email)
 
-    address = input('Do you want to enter your address? (y/n) ').lower()
+    address = input('Do you want to enter an address? (y/n) ').lower()
 
     if address == 'y':
        user['address'] = get_address()
@@ -83,7 +83,30 @@ def delete_user(collection):
 @clear_system
 def update_user(collection):
     """Update an user"""
-    print('Update user')
+    username = input('Username: ')
+
+    updated_user = {}
+
+    answer = input('Do you want to update the username? (y/n) ').lower()
+    if answer == 'y':
+        new_username = input('New username: ')
+        updated_user['username'] = new_username
+
+    answer = input('Do you want to update the age? (y/n) ').lower()
+    if answer == 'y':
+        new_age = input('New age: ')
+        updated_user['age'] = new_age
+
+    answer = input('Do you want to update the email? (y/n) ').lower()
+    if answer == 'y':
+        new_email = input('New email: ')
+        updated_user['email'] = new_email
+        
+    result = collection.update_one({'username': username},{"$set": updated_user})
+
+    print(result.acknowledged)
+
+    return result.acknowledged
 
 
 def default(*args, **kwargs):
